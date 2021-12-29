@@ -1,0 +1,7 @@
+# sum all the even numbers from 1 to 1000
+1 while
+    swap
+    2 + dup 1 - dump
+    dup 1000 <
+end
+

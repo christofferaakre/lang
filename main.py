@@ -21,6 +21,7 @@ def iota(reset=False):
 
 # operations
 OP_PUSH = iota()
+OP_POP = iota()
 OP_ADD = iota()
 OP_SUB = iota()
 OP_MULTIPLY = iota()
@@ -64,10 +65,13 @@ def lex_program(program_filename: str) -> list:
 
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
-                assert OP_COUNT == 17, "Must handle alll instructions in lex_program"
+                assert OP_COUNT == 18, "Must handle alll instructions in lex_program"
                 if instruction == "#":
                     break
 
+                if instruction == 'pop':
+                    op = (OP_POP, )
+                    program.append(op)
 
                 elif instruction == "+":
                    op = (OP_ADD, )
@@ -190,14 +194,17 @@ def simulate_program(program, args):
         verbose = False
         if verbose:
             print(f"stack: {stack}")
-            print(f"instruction: {op}")
-            print(f"instruction pointer: {instruction_pointer}")
-            print("\n")
+            # print(f"instruction: {op}")
+            # print(f"instruction pointer: {instruction_pointer}")
+            # print("\n")
 
-        assert OP_COUNT == 17, "Must handle all instructions in simulate_program"
+        assert OP_COUNT == 18, "Must handle all instructions in simulate_program"
         if op[0] == OP_PUSH:
             assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
             stack.append(int(op[1]))
+            instruction_pointer += 1
+        if op[0] == OP_POP:
+            stack.pop()
             instruction_pointer += 1
         elif op[0] == OP_ADD:
             a = stack.pop()
@@ -239,11 +246,12 @@ def simulate_program(program, args):
             instruction_pointer += 1
 
         elif op[0] == OP_SWAP:
-            a = stack.pop()
-            b = stack.pop()
+            if len(stack) >= 2:
+                a = stack.pop()
+                b = stack.pop()
 
-            stack.append(a)
-            stack.append(b)
+                stack.append(a)
+                stack.append(b)
 
             instruction_pointer += 1
 
@@ -358,11 +366,15 @@ def compile_program(program, args):
             out_file.write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
-            assert OP_COUNT == 17, "Must handle all instructions in compile_program"
+            assert OP_COUNT == 18, "Must handle all instructions in compile_program"
             if op[0] == OP_PUSH:
                 assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
                 out_file.write(f"    ;; PUSH {op[1]} ;;\n")
                 out_file.write(f"    push {op[1]}\n\n")
+
+            if op[0] == OP_POP:
+                out_file.write(f"    ;; POP ;;\n")
+                out_file.write(f"    pop rax\n\n")
 
             elif op[0] == OP_ADD:
                 out_file.write(f"    ;; ADD ;;\n")
