@@ -23,6 +23,7 @@ def iota(reset=False):
 OP_PUSH = iota()
 OP_ADD = iota()
 OP_SUB = iota()
+OP_MULTIPLY = iota()
 OP_DUMP = iota()
 OP_DUP = iota()
 OP_SWAP = iota()
@@ -35,6 +36,7 @@ OP_GREATER_THAN = iota()
 OP_LESS_THAN = iota()
 OP_GREATER_THAN_OR_EQUAL = iota()
 OP_LESS_THAN_OR_EQUAL = iota()
+OP_COUNT = iota()
 
 def get_contents_of_file(filename):
     contents = ''
@@ -61,6 +63,7 @@ def lex_program(program_filename: str) -> list:
 
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
+                assert OP_COUNT == 16, "Must handle alll instructions in lex_program"
                 if instruction == "#":
                     break
 
@@ -148,6 +151,10 @@ def lex_program(program_filename: str) -> list:
                     op = (OP_LESS_THAN_OR_EQUAL, )
                     program.append(op)
 
+                elif instruction == "*":
+                    op = (OP_MULTIPLY, )
+                    program.append(op)
+
                 else:
                    try:
                        number = int(instruction)
@@ -179,6 +186,7 @@ def simulate_program(program, args):
             print(f"instruction pointer: {instruction_pointer}")
             print("\n")
 
+        assert OP_COUNT == 16, "Must handle all instructions in simulate_program"
         if op[0] == OP_PUSH:
             assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
             stack.append(int(op[1]))
@@ -192,6 +200,12 @@ def simulate_program(program, args):
             a = stack.pop()
             b = stack.pop()
             stack.append(b - a)
+            instruction_pointer += 1
+
+        elif op[0] == OP_MULTIPLY:
+            a = stack.pop()
+            b = stack.pop()
+            stack.append(b * a)
             instruction_pointer += 1
 
         elif op[0] == OP_DUMP:
@@ -326,6 +340,7 @@ def compile_program(program, args):
             out_file.write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
+            assert OP_COUNT == 16, "Must handle all instructions in compile_program"
             if op[0] == OP_PUSH:
                 assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
                 out_file.write(f"    ;; PUSH {op[1]} ;;\n")
@@ -343,6 +358,8 @@ def compile_program(program, args):
                 out_file.write(f"    pop rbx\n")
                 out_file.write(f"    sub rbx, rax\n")
                 out_file.write(f"    push rbx\n\n")
+            elif op[0] == OP_MULTIPLY:
+                raise NotImplementedError
             elif op[0] == OP_DUMP:
                 out_file.write(f"    ;; DUMP ;;\n")
                 out_file.write(f"    pop rax\n")
