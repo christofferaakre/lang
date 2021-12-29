@@ -225,7 +225,6 @@ def simulate_program(program, args):
             # and ratio just below
             stack.append(ratio)
             stack.append(remainder)
-            stack.append(int(b / a))
             instruction_pointer += 1
 
         elif op[0] == OP_DUMP:
@@ -391,7 +390,8 @@ def compile_program(program, args):
                 out_file.write(f"    mov rdx, 0\n")
                 out_file.write(f"    idiv rbx\n")
                 # ratio goes in rax and remainder goes in rdx
-                out_file.write(f"    push rax\n\n")
+                out_file.write(f"    push rax\n")
+                out_file.write(f"    push rdx\n")
             elif op[0] == OP_DUMP:
                 out_file.write(f"    ;; DUMP ;;\n")
                 out_file.write(f"    pop rax\n")
