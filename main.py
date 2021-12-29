@@ -24,6 +24,7 @@ OP_PUSH = iota()
 OP_ADD = iota()
 OP_SUB = iota()
 OP_MULTIPLY = iota()
+OP_DIVIDE = iota()
 OP_DUMP = iota()
 OP_DUP = iota()
 OP_SWAP = iota()
@@ -63,9 +64,10 @@ def lex_program(program_filename: str) -> list:
 
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
-                assert OP_COUNT == 16, "Must handle alll instructions in lex_program"
+                assert OP_COUNT == 17, "Must handle alll instructions in lex_program"
                 if instruction == "#":
                     break
+
 
                 elif instruction == "+":
                    op = (OP_ADD, )
@@ -73,6 +75,15 @@ def lex_program(program_filename: str) -> list:
                 elif instruction == "-":
                    op = (OP_SUB, )
                    program.append(op)
+
+                elif instruction == "*":
+                    op = (OP_MULTIPLY, )
+                    program.append(op)
+
+                elif instruction == "/":
+                    op = (OP_DIVIDE, )
+                    program.append(op)
+
                 elif instruction == "dump":
                    op = (OP_DUMP, )
                    program.append(op)
@@ -151,9 +162,6 @@ def lex_program(program_filename: str) -> list:
                     op = (OP_LESS_THAN_OR_EQUAL, )
                     program.append(op)
 
-                elif instruction == "*":
-                    op = (OP_MULTIPLY, )
-                    program.append(op)
 
                 else:
                    try:
@@ -186,7 +194,7 @@ def simulate_program(program, args):
             print(f"instruction pointer: {instruction_pointer}")
             print("\n")
 
-        assert OP_COUNT == 16, "Must handle all instructions in simulate_program"
+        assert OP_COUNT == 17, "Must handle all instructions in simulate_program"
         if op[0] == OP_PUSH:
             assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
             stack.append(int(op[1]))
@@ -206,6 +214,12 @@ def simulate_program(program, args):
             a = stack.pop()
             b = stack.pop()
             stack.append(b * a)
+            instruction_pointer += 1
+
+        elif op[0] == OP_DIVIDE:
+            a = stack.pop()
+            b = stack.pop()
+            stack.append(int(b / a))
             instruction_pointer += 1
 
         elif op[0] == OP_DUMP:
