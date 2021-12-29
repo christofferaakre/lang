@@ -353,7 +353,7 @@ def compile_program(program, args):
             out_file.write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
-            assert OP_COUNT == 16, "Must handle all instructions in compile_program"
+            assert OP_COUNT == 17, "Must handle all instructions in compile_program"
             if op[0] == OP_PUSH:
                 assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
                 out_file.write(f"    ;; PUSH {op[1]} ;;\n")
@@ -377,6 +377,15 @@ def compile_program(program, args):
                 out_file.write(f"    pop rbx\n");
                 out_file.write(f"    mul rbx\n");
                 out_file.write(f"    push rax\n\n");
+            elif op[0] == OP_DIVIDE:
+                out_file.write(f"    ;; DIVIDE ;;\n")
+                out_file.write(f"    pop rbx\n")
+                out_file.write(f"    pop rax\n")
+                # Required to avoid SIGFPE
+                out_file.write(f"    mov rdx, 0\n")
+                out_file.write(f"    div rbx\n")
+                # ratio goes in rax and remainder goes in rdx
+                out_file.write(f"    push rax\n\n")
             elif op[0] == OP_DUMP:
                 out_file.write(f"    ;; DUMP ;;\n")
                 out_file.write(f"    pop rax\n")
