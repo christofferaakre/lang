@@ -219,6 +219,12 @@ def simulate_program(program, args):
         elif op[0] == OP_DIVIDE:
             a = stack.pop()
             b = stack.pop()
+            ratio = b // a
+            remainder = b % a
+            # put remainder on top of stack,
+            # and ratio just below
+            stack.append(ratio)
+            stack.append(remainder)
             stack.append(int(b / a))
             instruction_pointer += 1
 
