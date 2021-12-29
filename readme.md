@@ -20,7 +20,7 @@ are used for compiling programs
     ```bash
     ~/coding/lang/main.py "$@"
     ```
-    Then, you can do `lang [program] [simualte | compile <out-file>]`
+    Then, you can do `lang [program] [simulate | compile <out-file>]`
 
 ## Usage
 Write a program with `.lang` extension, for example `program.lang`. Then you can either simulate
