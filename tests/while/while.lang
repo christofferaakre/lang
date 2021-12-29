@@ -1,0 +1,5 @@
+# this should printout
+# the integers from 69 to 1, descending
+69 while
+  dup dump 1 -
+end

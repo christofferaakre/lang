@@ -1,0 +1,4 @@
+# should print 0, 1, 1
+8 9 >= dump
+9 9 >= dump
+10 9 >= dump

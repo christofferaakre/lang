@@ -1,0 +1,7 @@
+# this file should print out all the
+# fibonacci numbers less than or equal to 1000
+1 1 while
+  dup dump
+  swap dup2 +
+  dup 1000 >= if 0 end
+end

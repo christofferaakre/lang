@@ -1,0 +1,5 @@
+# this should print 200
+0 if
+  100 dump
+end
+200 dump

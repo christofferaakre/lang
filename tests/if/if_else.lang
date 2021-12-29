@@ -1,0 +1,7 @@
+# testing if else blocks
+# should only print 200, not 100
+0 if
+    100 dump
+else
+    200 dump
+end

@@ -1,0 +1,3 @@
+34 35 + dump
+# this should throw an error
+31 21 asd
