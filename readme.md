@@ -45,6 +45,7 @@ Nested if-else blocks and loops are supported.
 | `PUSH`  | `int`  | Push a number onto the stack, i.e. `45` pushes the number 45 onto the stack  |
 | `ADD`  | `+`  | Pop the top two numbers off the stack, add them, and push the result back onto the stack  |
 | `SUB`  | `-`  | Pop the top two numbers `a` and `b` off the stack, subtract them (`b - a`), then push the result onto the stack   |
+| `MUL`  | `*`  | Pop the top two numbers `a` and `b` off the stack, multiply them, then push the result onto the stack   |
 | `DUMP`  | `dump`  | Pop the top number off the stack, and print it to standard output|
 | `DUP`  | `dup[n]`  | `dup` will duplicate the top number on the stack and push it on top. `dup2` will duplicate the second number from the top and push it to the top of the stack. You can also do `dup3`, etc.|
 | `SWAP`  | `swap`  | Swaps the two topmost numbers on the stack|
