@@ -58,7 +58,7 @@ _addr0:
 
 _addr1:
     ;; if ;;
-    pop rax
+    mov rax, [rsp]
     test rax, rax
    jz _addr5
 _addr2:

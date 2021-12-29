@@ -249,7 +249,7 @@ def simulate_program(program, args):
 
         elif op[0] == OP_IF:
             assert len(op) >= 2, "Operation OP_IF must have a label to jump to in case the condition is false"
-            a = stack.pop()
+            a = stack[-1]
             if a != 0:
                 instruction_pointer += 1
             else:
@@ -423,7 +423,7 @@ def compile_program(program, args):
             elif op[0] == OP_IF:
                 assert len(op) >= 2, "Operation OP_IF must have a label to jump to if the condition is false"
                 out_file.write("    ;; if ;;\n")
-                out_file.write("    pop rax\n")
+                out_file.write(f"    mov rax, [rsp]\n")
                 out_file.write("    test rax, rax\n")
                 out_file.write(f"   jz _addr{op[1]}\n")
 
