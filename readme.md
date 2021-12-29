@@ -31,7 +31,7 @@ object file `program.o` will be generated, and the actual executable, simply nam
 no extension. To run it, run `./program`.
 
 ## Features
-`lang` is a very simple stack based language, and currently does not have features you might
+`lang` (name not final) is a very simple stack based language, and currently does not have features you might
 be used to like variables, etc. Instead, you work with a stack.
 A program consists of a series of instructions. Instructions are
 separated by spaces, and newlines and excess whitespace are ignored.
@@ -40,23 +40,23 @@ You can use `#` to type comments, anything afer a `#` will be ignored.
 Currently the only type of data that is supported is integers.
 Nested if-else blocks and loops are supported.
 
-| Operation  | Syntax  | Description  |   |   |
-|:-:|---|---|---|---|
-| `PUSH`  | `int`  | Push a number onto the stack, i.e. `45` pushes the number 45 onto the stack  |   |   |
-| `ADD`  | `+`  | Pop the top two numbers off the stack, add them, and push the result back onto the stack  |   |   |
-| `SUB`  | `-`  | Pop the top two numbers `a` and `b` off the stack, subtract them (`b - a`), then push the result onto the stack   |   |   |
-| `DUMP`  | `dump`  | Pop the top number off the stack, and print it to standard output|   |   |
-| `DUP`  | `dup[n]`  | `dup` will duplicate the top number on the stack and push it on top. `dup2` will duplicate the second number from the top and push it to the top of the stack. You can also do `dup3`, etc.|   |   |
-| `SWAP`  | `swap`  | Swaps the two topmost numbers on the stack|   |   |
-| `IF`  | `if`  | Pops the top number off the stack. If it is `0`, go to the next `else` or `end`. If it is nonzero, Go to the next instruction|   |   |
-| `EQ`  | `=`  |Pops the top two numbers off the stack, and checks if they are equal. If they are, push `1` to the stack, otherwise push `0`.|   |   |
-| `GE`  | `>`  |Pops the top two numbers off the stack, and checks if the second number is greater than the top number. If it is, push `1` to the stack, otherwise push `0`.|   |   |
-| `GEQ`  | `>=`  |Pops the top two numbers off the stack, and checks if the second number is greater than or equal to the top number. If it is, push `1` to the stack, otherwise push `0`.|   |   |
-| `LE`  | `<`  |Pops the top two numbers off the stack, and checks if the second number is less than the top number. If it is, push `1` to the stack, otherwise push `0`.|   |   |
-| `LEQ`  | `<=`  |Pops the top two numbers off the stack, and checks if the second number is less than or equal to the top number. If it is, push `1` to the stack, otherwise push `0`.|   |   |
-| `ELSE`  | `else`  | If `if` fails, execution will jump to the `else` if one exists|   |   |
-| `END`  | `end`  | Marks the end of an if-else block or a loop|   |   |
-| `WHILE`  | `while`  |Pops the top number off the stack. If it is nonzero, execute the code until the next `end`. Then pop the top number again and repeat until the top number is zero, then jump to the `end` |   |   |
+| Operation  | Syntax  | Description  |
+|:-:|---|---|
+| `PUSH`  | `int`  | Push a number onto the stack, i.e. `45` pushes the number 45 onto the stack  |
+| `ADD`  | `+`  | Pop the top two numbers off the stack, add them, and push the result back onto the stack  |
+| `SUB`  | `-`  | Pop the top two numbers `a` and `b` off the stack, subtract them (`b - a`), then push the result onto the stack   |
+| `DUMP`  | `dump`  | Pop the top number off the stack, and print it to standard output|
+| `DUP`  | `dup[n]`  | `dup` will duplicate the top number on the stack and push it on top. `dup2` will duplicate the second number from the top and push it to the top of the stack. You can also do `dup3`, etc.|
+| `SWAP`  | `swap`  | Swaps the two topmost numbers on the stack|
+| `IF`  | `if`  | Pops the top number off the stack. If it is `0`, go to the next `else` or `end`. If it is nonzero, Go to the next instruction|
+| `EQ`  | `=`  |Pops the top two numbers off the stack, and checks if they are equal. If they are, push `1` to the stack, otherwise push `0`.|
+| `GE`  | `>`  |Pops the top two numbers off the stack, and checks if the second number is greater than the top number. If it is, push `1` to the stack, otherwise push `0`.|
+| `GEQ`  | `>=`  |Pops the top two numbers off the stack, and checks if the second number is greater than or equal to the top number. If it is, push `1` to the stack, otherwise push `0`.|
+| `LE`  | `<`  |Pops the top two numbers off the stack, and checks if the second number is less than the top number. If it is, push `1` to the stack, otherwise push `0`.|
+| `LEQ`  | `<=`  |Pops the top two numbers off the stack, and checks if the second number is less than or equal to the top number. If it is, push `1` to the stack, otherwise push `0`.|
+| `ELSE`  | `else`  | If `if` fails, execution will jump to the `else` if one exists|
+| `END`  | `end`  | Marks the end of an if-else block or a loop|
+| `WHILE`  | `while`  |Pops the top number off the stack. If it is nonzero, execute the code until the next `end`. Then pop the top number again and repeat until the top number is zero, then jump to the `end` |
 
 ## Examples
 Code examples can be found in the `examples` directory, but here is an
