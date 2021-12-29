@@ -5,3 +5,6 @@
 __pycache__
 .env
 **/*.o
+test.asm
+test.o
+test

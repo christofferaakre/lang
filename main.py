@@ -319,7 +319,6 @@ def compile_program(program, args):
         out_file.write(get_contents_of_file("inc/printint.inc"))
         out_file.write("\n")
         out_file.write("\n")
-        #out_file.write("%include \"inc/printint.inc\"\n")
         out_file.write("\n")
 
         out_file.write("section .bss\n")
@@ -359,7 +358,11 @@ def compile_program(program, args):
                 out_file.write(f"    sub rbx, rax\n")
                 out_file.write(f"    push rbx\n\n")
             elif op[0] == OP_MULTIPLY:
-                raise NotImplementedError
+                out_file.write(f"    ;; MULTIPLY ;;\n")
+                out_file.write(f"    pop rax\n");
+                out_file.write(f"    pop rbx\n");
+                out_file.write(f"    mul rbx\n");
+                out_file.write(f"    push rax\n\n");
             elif op[0] == OP_DUMP:
                 out_file.write(f"    ;; DUMP ;;\n")
                 out_file.write(f"    pop rax\n")
@@ -371,7 +374,7 @@ def compile_program(program, args):
                     # if op[1] is e.g. 2, we want to duplicate the second element
                     print(f"compiling dup{op[1]}")
                     out_file.write(f"    mov rax, [rsp+{8 * (op[1] - 1)}]\n")
-                    out_file.write(f"    push rax\n")
+                    out_file.write(f"    push rax\n\n")
                     # raise NotImplementedError
 
                 else:
