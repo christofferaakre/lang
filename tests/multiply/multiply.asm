@@ -53,19 +53,18 @@ section .text
 
 _start:
 _addr0:
-    ;; PUSH 100 ;;
-    push 100
+    ;; PUSH 2 ;;
+    push 2
 
 _addr1:
     ;; PUSH 2 ;;
     push 2
 
 _addr2:
-    ;; DIVIDE ;;
-    pop rbx
+    ;; MULTIPLY ;;
     pop rax
-    mov rdx, 0
-    idiv rbx
+    pop rbx
+    imul rbx
     push rax
 
 _addr3:

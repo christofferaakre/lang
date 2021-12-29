@@ -375,7 +375,7 @@ def compile_program(program, args):
                 out_file.write(f"    ;; MULTIPLY ;;\n")
                 out_file.write(f"    pop rax\n");
                 out_file.write(f"    pop rbx\n");
-                out_file.write(f"    mul rbx\n");
+                out_file.write(f"    imul rbx\n");
                 out_file.write(f"    push rax\n\n");
             elif op[0] == OP_DIVIDE:
                 out_file.write(f"    ;; DIVIDE ;;\n")
@@ -383,7 +383,7 @@ def compile_program(program, args):
                 out_file.write(f"    pop rax\n")
                 # Required to avoid SIGFPE
                 out_file.write(f"    mov rdx, 0\n")
-                out_file.write(f"    div rbx\n")
+                out_file.write(f"    idiv rbx\n")
                 # ratio goes in rax and remainder goes in rdx
                 out_file.write(f"    push rax\n\n")
             elif op[0] == OP_DUMP:
