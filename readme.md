@@ -37,7 +37,7 @@ A program consists of a series of instructions. Instructions are
 separated by spaces, and newlines and excess whitespace are ignored.
 You can use `#` to type comments, anything afer a `#` will be ignored.
 
-Currently the only type of data that is supported is integers.
+Currently the only type of data that is supported is signed integers.
 Nested if-else blocks and loops are supported.
 
 | Operation  | Syntax  | Description  |
@@ -46,6 +46,7 @@ Nested if-else blocks and loops are supported.
 | `ADD`  | `+`  | Pop the top two numbers off the stack, add them, and push the result back onto the stack  |
 | `SUB`  | `-`  | Pop the top two numbers `a` and `b` off the stack, subtract them (`b - a`), then push the result onto the stack   |
 | `MUL`  | `*`  | Pop the top two numbers `a` and `b` off the stack, multiply them, then push the result onto the stack   |
+| `DIV`  | `/`  | Pop the top two numbers `a` and `b` off the stack and performs integer division `b // a` on them. Then, pushes the ratio and remainder onto the stack, in that order, so the remainder is on top.|
 | `DUMP`  | `dump`  | Pop the top number off the stack, and print it to standard output|
 | `DUP`  | `dup[n]`  | `dup` will duplicate the top number on the stack and push it on top. `dup2` will duplicate the second number from the top and push it to the top of the stack. You can also do `dup3`, etc.|
 | `SWAP`  | `swap`  | Swaps the two topmost numbers on the stack|
