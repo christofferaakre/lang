@@ -62,13 +62,13 @@ _addr1:
     push 420
 
 _addr2:
-    ;; POP:myvar
+    ;; POP:myvar ;;
     pop rax
-    mov [memory+1], rax
+    mov [memory+0], rax
 _addr3:
-    ;; POP:myvar2
+    ;; POP:myvar2 ;;
     pop rax
-    mov [memory+2], rax
+    mov [memory+8], rax
 _addr4:
     ;; PUSH 3 ;;
     push 3
@@ -78,9 +78,11 @@ _addr5:
     push 5
 
 _addr6:
+    ;; PUSH_VAR myvar ;;
     mov rax, [memory+0]
     push rax
 _addr7:
+    ;; PUSH_VAR myvar2 ;;
     mov rax, [memory+8]
     push rax
 _addr8:

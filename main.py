@@ -411,7 +411,7 @@ def compile_program(program, args):
 
             if op[0] == OP_POP:
                 if len(op) == 1:
-                    out_file.write(f"    ;; POP ;;\n")
+                    out_file.write(f"    ;; POP ;;\n ;;")
                     out_file.write(f"    pop rax\n\n")
                 if len(op) == 2:
                     var_name = op[1]
@@ -419,13 +419,14 @@ def compile_program(program, args):
                     # if it is a new variable. If it is an
                     # old variable being redefined, we don't
                     # need to do anything
+
+                    out_file.write(f"    ;; POP:{var_name} ;;\n")
+                    out_file.write(f"    pop rax\n")
+                    out_file.write(f"    mov [memory+{8*index}], rax\n")
+
                     if not var_name in vars_dict:
                         vars_dict[var_name] = index
                         index += 1
-
-                    out_file.write(f"    ;; POP:{var_name}\n")
-                    out_file.write(f"    pop rax\n")
-                    out_file.write(f"    mov [memory+{index}], rax\n")
 
             elif op[0] == OP_ADD:
                 out_file.write(f"    ;; ADD ;;\n")
@@ -566,6 +567,7 @@ def compile_program(program, args):
                 assert len(op) == 2, "OP_PUSH_VAR must have name of variable"
                 var_name = op[1]
                 index = vars_dict[var_name]
+                out_file.write(f"    ;; PUSH_VAR {var_name} ;;\n")
                 out_file.write(f"    mov rax, [memory+{8 * index}]\n")
                 out_file.write(f"    push rax\n")
 
