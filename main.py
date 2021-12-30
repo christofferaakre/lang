@@ -176,6 +176,7 @@ def lex_program(program_filename: str) -> list:
                 elif instruction.startswith("$"):
                     var_name = instruction[1:]
                     op = (OP_PUSH_VAR, var_name)
+                    program.append(op)
 
                 else:
                    try:
@@ -205,10 +206,11 @@ def simulate_program(program, args):
 
         verbose = False
         if verbose:
+            print(f"instruction: {op}")
             print(f"stack: {stack}")
-            # print(f"instruction: {op}")
+            print(f"Vars: {vars_dict}")
             # print(f"instruction pointer: {instruction_pointer}")
-            # print("\n")
+            print()
 
         assert OP_COUNT == 19, "Must handle all instructions in simulate_program"
         if op[0] == OP_PUSH:

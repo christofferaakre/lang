@@ -1,1 +1,1 @@
-69 420 pop:myvar 3 5 $myvar dump
+69 420 pop:myvar pop:myvar2 3 5 $myvar $myvar2 dump dump

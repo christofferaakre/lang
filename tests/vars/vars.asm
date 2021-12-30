@@ -66,19 +66,34 @@ _addr2:
     pop rax
     mov [memory+1], rax
 _addr3:
+    ;; POP:myvar2
+    pop rax
+    mov [memory+2], rax
+_addr4:
     ;; PUSH 3 ;;
     push 3
 
-_addr4:
+_addr5:
     ;; PUSH 5 ;;
     push 5
 
-_addr5:
+_addr6:
+    mov rax, [memory+0]
+    push rax
+_addr7:
+    mov rax, [memory+8]
+    push rax
+_addr8:
     ;; DUMP ;;
     pop rax
     call _printRAX
 
-_addr6:
+_addr9:
+    ;; DUMP ;;
+    pop rax
+    call _printRAX
+
+_addr10:
     ;; EXIT ;; 
     mov rax, 60
     mov rdi, 0
