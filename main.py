@@ -21,6 +21,7 @@ def iota(reset=False):
 
 # operations
 OP_PUSH = iota()
+OP_PUSH_VAR = iota()
 OP_POP = iota()
 OP_ADD = iota()
 OP_SUB = iota()
@@ -65,13 +66,19 @@ def lex_program(program_filename: str) -> list:
 
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
-                assert OP_COUNT == 18, "Must handle alll instructions in lex_program"
+                assert OP_COUNT == 19, "Must handle alll instructions in lex_program"
                 if instruction == "#":
                     break
 
-                if instruction == 'pop':
-                    op = (OP_POP, )
-                    program.append(op)
+                if 'pop' in instruction:
+                    split = instruction.split(':')
+                    if len(split) == 1:
+                        op = (OP_POP, )
+                        program.append(op)
+                    if len(split) == 2:
+                        var_name = split[1]
+                        op = (OP_POP, var_name)
+                        program.append(op)
 
                 elif instruction == "+":
                    op = (OP_ADD, )
@@ -166,6 +173,9 @@ def lex_program(program_filename: str) -> list:
                     op = (OP_LESS_THAN_OR_EQUAL, )
                     program.append(op)
 
+                elif instruction.startswith("$"):
+                    var_name = instruction[1:]
+                    op = (OP_PUSH_VAR, var_name)
 
                 else:
                    try:
@@ -187,6 +197,8 @@ def lex_program(program_filename: str) -> list:
 def simulate_program(program, args):
     #return
     stack = []
+    vars_dict = {}
+
     instruction_pointer = 0
     while instruction_pointer < len(program):
         op = program[instruction_pointer]
@@ -198,13 +210,17 @@ def simulate_program(program, args):
             # print(f"instruction pointer: {instruction_pointer}")
             # print("\n")
 
-        assert OP_COUNT == 18, "Must handle all instructions in simulate_program"
+        assert OP_COUNT == 19, "Must handle all instructions in simulate_program"
         if op[0] == OP_PUSH:
             assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
             stack.append(int(op[1]))
             instruction_pointer += 1
         if op[0] == OP_POP:
-            stack.pop()
+            value = stack.pop()
+            if len(op) == 2:
+                var_name = op[1]
+                vars_dict[var_name] = value
+
             instruction_pointer += 1
         elif op[0] == OP_ADD:
             a = stack.pop()
@@ -327,6 +343,13 @@ def simulate_program(program, args):
                 stack.append(1)
             else:
                 stack.append(0)
+            instruction_pointer += 1
+
+        elif op[0] == OP_PUSH_VAR:
+            assert len(op) == 2, "OP_PUSH_VAR must have name of variable"
+            var_name = op[1]
+            value = vars_dict[var_name]
+            stack.append(value)
             instruction_pointer += 1
 
 def compile_program(program, args):
