@@ -31,8 +31,6 @@ object file `program.o` will be generated, and the actual executable, simply nam
 no extension. To run it, run `./program`.
 
 ## Features
-`lang` (name not final) is a very simple stack based language, and currently does not have features you might
-be used to like variables, etc. Instead, you work with a stack.
 A program consists of a series of instructions. Instructions are
 separated by spaces, and newlines and excess whitespace are ignored.
 You can use `#` to type comments, anything afer a `#` will be ignored.
@@ -43,7 +41,8 @@ Nested if-else blocks and loops are supported.
 | Operation  | Syntax  | Description  |
 |:-:|---|---|
 | `PUSH`  | `int`  | Push a number onto the stack, i.e. `45` pushes the number 45 onto the stack  |
-| `POP`  | `pop`  | Pop the top number off the stack|
+| `PUSH_VAR`  | `$myvar`  | Pushes the value of the `myvar` variable onto the stack|
+| `POP`  | `pop[:optional_var_name]`  | `pop` pops the top number off the stack, and does nothing with it. `pop:myvar` pops the top number off the stack saves it in a variable called `myvar`|
 | `ADD`  | `+`  | Pop the top two numbers off the stack, add them, and push the result back onto the stack  |
 | `SUB`  | `-`  | Pop the top two numbers `a` and `b` off the stack, subtract them (`b - a`), then push the result onto the stack   |
 | `MUL`  | `*`  | Pop the top two numbers `a` and `b` off the stack, multiply them, then push the result onto the stack   |
