@@ -363,6 +363,15 @@ def compile_program(program, args):
     if not out_filename:
         out_filename = "out"
 
+
+    # this dict maps string variable names to integer
+    # indices. For example, the first variable allocated
+    # gets index 0, the second one gets index 1, etc.
+    # These indices are used to know where to read
+    # and write memory
+    vars_dict = {}
+    index = 0
+
     with open(out_filename + ".asm", "w") as out_file:
         # boiler plate for assembly code
         out_file.write("BITS 64\n")
@@ -374,6 +383,9 @@ def compile_program(program, args):
         out_file.write("section .bss\n")
         out_file.write("    digitSpace resb 100\n")
         out_file.write("    digitSpacePos resb 8\n")
+        # Numbers are stored as 8-bit longs, so
+        # 800 bytes for example gets us 100 numbers
+        out_file.write("    memory resb 800\n")
         out_file.write("\n")
 
         out_file.write("section .text\n")
@@ -389,15 +401,29 @@ def compile_program(program, args):
             out_file.write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
-            assert OP_COUNT == 18, "Must handle all instructions in compile_program"
+            assert OP_COUNT == 19, "Must handle all instructions in compile_program"
             if op[0] == OP_PUSH:
                 assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
                 out_file.write(f"    ;; PUSH {op[1]} ;;\n")
                 out_file.write(f"    push {op[1]}\n\n")
 
             if op[0] == OP_POP:
-                out_file.write(f"    ;; POP ;;\n")
-                out_file.write(f"    pop rax\n\n")
+                if len(op) == 1:
+                    out_file.write(f"    ;; POP ;;\n")
+                    out_file.write(f"    pop rax\n\n")
+                if len(op) == 2:
+                    var_name = op[1]
+                    # give the variable the right index
+                    # if it is a new variable. If it is an
+                    # old variable being redefined, we don't
+                    # need to do anything
+                    if not var_name in vars_dict:
+                        vars_dict[var_name] = index
+                        index += 1
+
+                    out_file.write(f"    ;; POP:{var_name}\n")
+                    out_file.write(f"    pop rax\n")
+                    out_file.write(f"    mov [memory+{index}], rax\n")
 
             elif op[0] == OP_ADD:
                 out_file.write(f"    ;; ADD ;;\n")
@@ -533,6 +559,13 @@ def compile_program(program, args):
                 out_file.write("    mov rdx, 0\n")
                 out_file.write("    cmovle rdx, rbx\n")
                 out_file.write("    push rdx\n")
+
+            elif op[0] == OP_PUSH_VAR:
+                assert len(op) == 2, "OP_PUSH_VAR must have name of variable"
+                var_name = op[1]
+                index = vars_dict[var_name]
+                out_file.write(f"    mov rax, [memory+{8 * index}]\n")
+                out_file.write(f"    push rax\n")
 
         # address after last instruciton
         out_file.write(f"_addr{len(program)}:\n")
