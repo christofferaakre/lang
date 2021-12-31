@@ -1,0 +1,6 @@
+macro:mod9
+9 / swap pop
+ret
+
+25 call:mod9 dump
+

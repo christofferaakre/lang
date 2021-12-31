@@ -9,8 +9,14 @@ if exists("b:current_syntax")
 endif
 
 syntax match numbers "\<[0-9]\+\>"
-syntax match vars /^\$.\+\s/
-syntax match popVars /pop:.*\s/
+syntax match vars /\$[0-9a-z_]\+/
+syntax match popVars /pop:[0-9a-z_]\+/
+
+" macros
+syntax match macroStart /macro:[0-9a-z_]\+/
+syntax keyword return ret
+syntax match callMacro /call:[0-9a-z_]\+/
+
 " todos
 syntax keyword todos TODO FIXME NOTE
 
@@ -25,5 +31,7 @@ highlight default link popVars Identifier
 highlight default link todos Todo
 highlight default link keywords Keyword
 highlight default link commentLine Comment
-
+highlight default link macroStart Macro
+highlight default link return Macro
+highlight default link callMacro Macro
 let b:current_syntax = "lang"
