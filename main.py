@@ -39,6 +39,7 @@ OP_GREATER_THAN = iota()
 OP_LESS_THAN = iota()
 OP_GREATER_THAN_OR_EQUAL = iota()
 OP_LESS_THAN_OR_EQUAL = iota()
+OP_EXIT = iota()
 OP_COUNT = iota()
 
 def get_contents_of_file(filename):
@@ -66,7 +67,7 @@ def lex_program(program_filename: str) -> list:
 
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
-                assert OP_COUNT == 19, "Must handle alll instructions in lex_program"
+                assert OP_COUNT == 20, "Must handle alll instructions in lex_program"
                 if instruction == "#":
                     break
 
@@ -152,6 +153,9 @@ def lex_program(program_filename: str) -> list:
                     ip_stack.append({"type": OP_WHILE, "ip": instruction_pointer})
                     program.append(op)
 
+                elif instruction == "exit":
+                    op = (OP_EXIT, )
+                    program.append(op)
 
                 elif instruction == "=":
                     op = (OP_EQUAL, )
@@ -212,7 +216,7 @@ def simulate_program(program, args):
             # print(f"instruction pointer: {instruction_pointer}")
             print()
 
-        assert OP_COUNT == 19, "Must handle all instructions in simulate_program"
+        assert OP_COUNT == 20, "Must handle all instructions in simulate_program"
         if op[0] == OP_PUSH:
             assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
             stack.append(int(op[1]))
@@ -256,6 +260,13 @@ def simulate_program(program, args):
             a = stack.pop()
             print(a)
             instruction_pointer += 1
+
+        elif op[0] == OP_EXIT:
+            exit_code = 0
+            if len(stack) > 0:
+                exit_code = stack.pop()
+
+            exit(exit_code)
 
         elif op[0] == OP_DUP:
             index = -op[1] if len(op) >= 2 else -1
@@ -403,7 +414,7 @@ def compile_program(program, args):
             out_file.write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
-            assert OP_COUNT == 19, "Must handle all instructions in compile_program"
+            assert OP_COUNT == 20, "Must handle all instructions in compile_program"
             if op[0] == OP_PUSH:
                 assert len(op) >= 2, "Operation OP_PUSH needs an argument to push onto the stack"
                 out_file.write(f"    ;; PUSH {op[1]} ;;\n")
@@ -461,6 +472,11 @@ def compile_program(program, args):
                 out_file.write(f"    pop rax\n")
                 out_file.write(f"    call _printRAX\n")
                 out_file.write("\n")
+            elif op[0] == OP_EXIT:
+                out_file.write("    ;; EXIT ;;\n")
+                out_file.write("    mov rax, 60\n")
+                out_file.write("    pop rdi\n")
+                out_file.write("    syscall\n\n")
 
             elif op[0] == OP_DUP:
                 if len(op) >= 2 and op[1] > 1:

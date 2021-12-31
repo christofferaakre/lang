@@ -17,7 +17,7 @@ syntax keyword todos TODO FIXME NOTE
 " comments
 syntax region commentLine start="#" end="\n" contains=langTodos
 
-syntax keyword keywords if else while end
+syntax keyword keywords if else while end exit
 
 highlight default link numbers Number
 highlight default link vars Identifier
