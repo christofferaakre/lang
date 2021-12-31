@@ -8,3 +8,4 @@ __pycache__
 test.asm
 test.o
 test
+editor/test.lang
