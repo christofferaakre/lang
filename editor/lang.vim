@@ -8,7 +8,7 @@ if exists("b:current_syntax")
     finish
 endif
 
-syntax match numbers "\<[0-9]\+\s\>"
+syntax match numbers "\<[0-9]\+\>"
 syntax match vars /^\$.\+\s/
 syntax match popVars /pop:.*\s/
 " todos
