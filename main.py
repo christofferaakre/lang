@@ -488,13 +488,17 @@ def compile_program(program, args):
                 # the return address that automatically gets pushed onto the
                 # stack when a subroutine is called. This way, we can modify
                 # the stack in any way we like inside the subroutine
-                write(f"pop r14\n")
+                write(f"    add r10, 8\n")
+                write(f"    pop r14\n")
+                write(f"    mov [returnstack+r10], r14\n")
 
             elif op[0] == OP_RET:
                 assert subroutine, "Can only return from inside a subroutine"
                 # push the return address back onto the stack just before
                 # returning out of the subroutine
+                write(f"mov r14, [returnstack+r10]\n")
                 write(f"push r14\n")
+                write(f"sub r10, 8\n")
                 write(f"ret\n")
                 subroutine = False
 
@@ -695,13 +699,15 @@ def compile_program(program, args):
         out_file.write("    memory resb 800\n")
         out_file.write("\n")
 
+        out_file.write("    returnstack resb 800\n\n")
+
         out_file.write("section .text\n")
 
         out_file.write("    global _start:\n")
         out_file.write("\n")
 
         out_file.write("_start:\n")
-
+        out_file.write("    mov r10, -1\n")
         out_file.write(instructions)
 
         # address after last instruciton
