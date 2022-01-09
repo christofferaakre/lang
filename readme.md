@@ -60,6 +60,9 @@ Nested if-else blocks and loops are supported.
 | `ELSE`  | `else`  | If `if` fails, execution will jump to the `else` if one exists|
 | `END`  | `end`  | Marks the end of an if-else block or a loop|
 | `WHILE`  | `while`  |Peeks at the top number on the stack. If it is nonzero, execute the code until the next `end`. Then peek at the top number again and repeat until the top number is zero, then jump to the `end` |
+| `MACRO`  | `macro:macroname`  |Starts a macro definition block. The macro can be called later with `call:macroname`|
+| `RET`  | `ret`  |Returns out of the macro. Return values are not a thing in this language, instead you may push a value onto the stack before returning, and then pop it off after you call the macro|
+| `CALL`  | `call:macroname`  |Call the macro with name `macroname`.|
 
 ## Examples
 Code examples can be found in the `examples` directory, but here is an
