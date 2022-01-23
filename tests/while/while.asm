@@ -47,11 +47,15 @@ _printRAXLoop2:
 section .bss
     digitSpace resb 100
     digitSpacePos resb 8
+    memory resb 800
+
+    returnstack resb 800
 
 section .text
     global _start:
 
 _start:
+    mov r10, -1
 _addr0:
     ;; PUSH 69 ;;
     push 69

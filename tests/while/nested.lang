@@ -1,0 +1,9 @@
+# this should print the numbers from 5 to 1 in descending order
+# twice using a nested while loop
+2 while
+    5 while
+        dup dump
+        1 -
+    end pop
+1 -
+end
