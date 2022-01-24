@@ -39,11 +39,11 @@ OP_GREATER_THAN = iota()
 OP_LESS_THAN = iota()
 OP_GREATER_THAN_OR_EQUAL = iota()
 OP_LESS_THAN_OR_EQUAL = iota()
+OP_NOT = iota()
 OP_EXIT = iota()
 OP_MACRO = iota()
 OP_RET = iota()
 OP_CALL = iota()
-
 #
 OP_COUNT = iota()
 #
@@ -73,7 +73,7 @@ def lex_program(program_filename: str) -> list:
 
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
-                assert OP_COUNT == 23, "Must handle alll instructions in lex_program"
+                assert OP_COUNT == 24, "Must handle alll instructions in lex_program"
                 if instruction == "#":
                     break
 
@@ -202,6 +202,10 @@ def lex_program(program_filename: str) -> list:
                     op = (OP_LESS_THAN_OR_EQUAL, )
                     program.append(op)
 
+                elif instruction == "not":
+                    op = (OP_NOT, )
+                    program.append(op)
+
                 elif instruction.startswith("$"):
                     var_name = instruction[1:]
                     op = (OP_PUSH_VAR, var_name)
@@ -249,7 +253,7 @@ def simulate_program(program, args):
             print(f"instruction pointer: {instruction_pointer}")
             print()
 
-        assert OP_COUNT == 23, "Must handle all instructions in simulate_program"
+        assert OP_COUNT == 24, "Must handle all instructions in simulate_program"
 
         if op[0] == OP_MACRO:
             assert len(op) == 2, "OP_MACRO must have name of macro"
@@ -427,6 +431,14 @@ def simulate_program(program, args):
                 stack.append(0)
             instruction_pointer += 1
 
+        elif op[0] == OP_NOT:
+            a = stack.pop()
+            if a == 0:
+                stack.append(1)
+            else:
+                stack.append(0)
+            instruction_pointer += 1
+
         elif op[0] == OP_PUSH_VAR:
             assert len(op) == 2, "OP_PUSH_VAR must have name of variable"
             var_name = op[1]
@@ -476,7 +488,7 @@ def compile_program(program, args):
             write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
-            assert OP_COUNT == 23, "Must handle all instructions in compile_program"
+            assert OP_COUNT == 24, "Must handle all instructions in compile_program"
 
             if op[0] == OP_MACRO:
                 assert not subroutine, "Nested subroutines are not allowed for this language"
@@ -670,6 +682,20 @@ def compile_program(program, args):
                 write("    mov rdx, 0\n")
                 write("    cmovle rdx, rbx\n")
                 write("    push rdx\n")
+
+            elif op[0] == OP_NOT:
+                write(f"    ;; NOT ;;\n")
+                write(f"    pop rax\n")
+                write(f"    cmp rax, 0\n")
+                write(f"    je _push1_{instruction_pointer}\n")
+                write(f"    _push0_{instruction_pointer}:\n")
+                write(f"        push 0\n")
+                write(f"        jmp _finally_{instruction_pointer}\n")
+                write(f"    _push1_{instruction_pointer}:\n")
+                write(f"        push 1\n")
+                write(f"        jmp _finally_{instruction_pointer}\n")
+                write(f"_finally_{instruction_pointer}:\n")
+
 
             elif op[0] == OP_PUSH_VAR:
                 assert len(op) == 2, "OP_PUSH_VAR must have name of variable"
