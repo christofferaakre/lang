@@ -57,6 +57,7 @@ Nested if-else blocks and loops are supported.
 | `GEQ`  | `>=`  |Pops the top two numbers off the stack, and checks if the second number is greater than or equal to the top number. If it is, push `1` to the stack, otherwise push `0`.|
 | `LE`  | `<`  |Pops the top two numbers off the stack, and checks if the second number is less than the top number. If it is, push `1` to the stack, otherwise push `0`.|
 | `LEQ`  | `<=`  |Pops the top two numbers off the stack, and checks if the second number is less than or equal to the top number. If it is, push `1` to the stack, otherwise push `0`.|
+| `NOT`  | `not`  |Pops the top number off the stack. If it is 0, push 1 onto the stack, else push 0 onto the stack.|
 | `ELSE`  | `else`  | If `if` fails, execution will jump to the `else` if one exists|
 | `END`  | `end`  | Marks the end of an if-else block or a loop|
 | `WHILE`  | `while`  |Peeks at the top number on the stack. If it is nonzero, execute the code until the next `end`. Then peek at the top number again and repeat until the top number is zero, then jump to the `end` |
