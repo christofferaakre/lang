@@ -15,7 +15,7 @@ def lex_program(program_filename: str) -> list:
             instructions = line.replace('\n', '').split(' ')
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
-                assert OP_COUNT == 24, "Must handle alll instructions in lex_program"
+                assert OP_COUNT == 25, "Must handle alll instructions in lex_program"
                 if "#" in instruction:
                     break
 
@@ -47,6 +47,10 @@ def lex_program(program_filename: str) -> list:
                 elif instruction == "dump":
                    op = (OP_DUMP, )
                    program.append(op)
+
+                elif instruction == "print":
+                    op = (OP_PRINT, )
+                    program.append(op)
 
                 elif "dup" in instruction:
                     op = None

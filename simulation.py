@@ -28,7 +28,7 @@ def simulate_program(program, args):
             print(f"instruction pointer: {instruction_pointer}")
             print()
 
-        assert OP_COUNT == 24, "Must handle all instructions in simulate_program"
+        assert OP_COUNT == 25, "Must handle all instructions in simulate_program"
 
         if op[0] == OP_MACRO:
             assert len(op) == 2, "OP_MACRO must have name of macro"
@@ -106,6 +106,11 @@ def simulate_program(program, args):
         elif op[0] == OP_DUMP:
             a = stack.pop()
             print(a)
+            instruction_pointer += 1
+
+        elif op[0] == OP_PRINT:
+            a = stack.pop()
+            print(a, end="")
             instruction_pointer += 1
 
         elif op[0] == OP_EXIT:
