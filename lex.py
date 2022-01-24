@@ -13,13 +13,36 @@ def lex_program(program_filename: str) -> list:
             if len(line) == 0:
                 continue
             instructions = line.replace('\n', '').split(' ')
+            string = ''
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
                 assert OP_COUNT == 26, "Must handle all instructions in lex_program"
-                if "#" in instruction:
+                if '"' in instruction:
+                    s = instruction
+                    s = instruction.replace('"', '')
+                    s = s.replace('\\n', '\n')
+                    s = s.replace('\\t', '\t')
+                    s = s.replace('\\r', '\r')
+                    s = s.replace('\\40', '\40')
+
+                    if instruction.endswith('"'):
+                        string += ' ' + s
+                        op = (OP_PRINTS, string)
+                        program.append(op)
+                        string = ''
+                    else:
+                        string += s
+
+
+
+                elif string:
+                    s = instruction
+                    string += ' ' + s
+
+                elif "#" in instruction:
                     break
 
-                if 'pop' in instruction:
+                elif 'pop' in instruction:
                     split = instruction.split(':')
                     if len(split) == 1:
                         op = (OP_POP, )
@@ -52,13 +75,6 @@ def lex_program(program_filename: str) -> list:
                     op = (OP_PRINT, )
                     program.append(op)
 
-                elif instruction.startswith('"') and instruction.startswith('"'):
-                    string = instruction.replace('"', '')
-                    string = string.replace('\\n', '\n')
-                    string = string.replace('\\t', '\t')
-                    string = string.replace('\\r', '\r')
-                    op = (OP_PRINTS, string)
-                    program.append(op)
 
                 elif "dup" in instruction:
                     op = None

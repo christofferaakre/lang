@@ -1,1 +1,1 @@
-"I_am_" 21 print "years_old.\n"
+"Hello world, I am " 21 print "\40years old\n"
