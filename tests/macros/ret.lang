@@ -1,0 +1,8 @@
+macro:only1
+    1 = if
+        100 ret
+    else
+        200 ret
+    end
+
+300 call:only1 dump
