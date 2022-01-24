@@ -1,0 +1,28 @@
+# Print the prime numbers below 1000
+
+macro:mod
+    # second topmost number mod top number
+    / swap pop
+ret
+
+macro:is_prime
+    pop:n
+    2 pop:counter
+    1 while pop
+        $n $counter call:mod
+        $counter 1 + pop:counter
+      end
+    $counter 1 -
+    $n =
+    swap pop
+    ret
+
+# main code to calculate prime numbers
+2 dup while pop
+    dup call:is_prime
+    f
+        dup dump
+    end
+    1 +
+    dup 1000 <=
+end
