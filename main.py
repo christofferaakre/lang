@@ -74,7 +74,7 @@ def lex_program(program_filename: str) -> list:
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
                 assert OP_COUNT == 24, "Must handle alll instructions in lex_program"
-                if instruction == "#":
+                if "#" in instruction:
                     break
 
                 if 'pop' in instruction:
