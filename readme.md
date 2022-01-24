@@ -30,6 +30,11 @@ assembly code will be stored in the file specified, in this case `program.asm`. 
 object file `program.o` will be generated, and the actual executable, simply named `program` with
 no extension. To run it, run `./program`.
 
+## Syntax highlighting
+If you use vim, you can get syntax highlighting by using the
+syntax file `editor/lang.vim`. See the instructions in that file
+if you are unsure about what to do with that file.
+
 ## Features
 A program consists of a series of instructions. Instructions are
 separated by spaces, and newlines and excess whitespace are ignored.
