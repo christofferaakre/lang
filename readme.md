@@ -52,7 +52,8 @@ Nested if-else blocks and loops are supported.
 | `SUB`  | `-`  | Pop the top two numbers `a` and `b` off the stack, subtract them (`b - a`), then push the result onto the stack   |
 | `MUL`  | `*`  | Pop the top two numbers `a` and `b` off the stack, multiply them, then push the result onto the stack   |
 | `DIV`  | `/`  | Pop the top two numbers `a` and `b` off the stack and performs integer division `b // a` on them. Then, pushes the ratio and remainder onto the stack, in that order, so the remainder is on top.|
-| `DUMP`  | `dump`  | Pop the top number off the stack, and print it to standard output|
+| `DUMP`  | `dump`  | Pop the top number off the stack, and print it to standard output with a newline character at the end|
+| `PRINT`  | `print`  | Pop the top number off the stack, and print it to standard output. Same as `DUMP`l, but without the newline character at the end.|
 | `EXIT`  | `exit`  | Pop the top number off the stack, and exit using that number as the exit code. If the stack is empty, use 0 as the exit code|
 | `DUP`  | `dup[n]`  | `dup` will duplicate the top number on the stack and push it on top. `dup2` will duplicate the second number from the top and push it to the top of the stack. You can also do `dup3`, etc.|
 | `SWAP`  | `swap`  | Swaps the two topmost numbers on the stack|
