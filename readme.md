@@ -14,7 +14,7 @@ are used for compiling programs
     * `pip install pathlib`
 4. Try to run one of the example files:
     * Try to simulate: `./main.py examples/fib/fib.lang simulate` and <br>
-    * Try to compile: `./main.py examples/dib/fib.lang compile examples/fib/fib.asm`
+    * Try to compile: `./main.py examples/fib/fib.lang compile examples/fib/fib.asm`
     * Try to run the compiled file: `./examples/fib/fib`
 5. Add the `main.py` to your system path somehow, e.g. save a bash script called `lang` in your `~/bin`:
     ```bash
