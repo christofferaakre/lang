@@ -67,12 +67,34 @@ Nested if-else blocks and loops are supported.
 
 ## Examples
 Code examples can be found in the `examples` directory, but here is an
-example program that calculates the fibonacci numbers less than or equal to 1000
+example program that calculates the prime numbers less than or equal to 1000
 and prints them to standard output:
 ```
-1 1 while
-  dup dump
-  swap dup2 +
-  dup 1000 >= if 0 end
+# Print the prime numbers below 1000
+macro:mod
+    # second topmost number mod top number
+    / swap pop
+ret
+
+macro:is_prime
+    pop:n
+    2 pop:counter
+    1 while pop
+        $n $counter call:mod
+        $counter 1 + pop:counter
+      end
+    $counter 1 -
+    $n =
+    swap pop
+    ret
+
+# main code to calculate prime numbers
+2 dup while pop
+    dup call:is_prime
+    f
+        dup dump
+    end
+    1 +
+   dup 1000 <=
 end
 ```

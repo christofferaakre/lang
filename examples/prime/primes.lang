@@ -1,5 +1,4 @@
 # Print the prime numbers below 1000
-
 macro:mod
     # second topmost number mod top number
     / swap pop
@@ -24,5 +23,5 @@ macro:is_prime
         dup dump
     end
     1 +
-    dup 1000 <=
+   dup 1000 <=
 end
