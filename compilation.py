@@ -133,7 +133,11 @@ def compile_program(program, args):
                 write(f"    call _printRAX\n")
                 write("\n")
             elif op[0] == OP_PRINT:
-                raise NotImplementedError
+                write(f"    ;; PRINT ;;\n")
+                write(f"    pop rax\n")
+                write(f"    call _printRAXNoNewLine\n")
+                write("\n")
+
             elif op[0] == OP_PRINTS:
                 raise NotImplementedError
             elif op[0] == OP_EXIT:
@@ -268,7 +272,8 @@ def compile_program(program, args):
 
         # boiler plate for assembly code
         out_file.write("BITS 64\n")
-        out_file.write(get_contents_of_file("inc/printint.inc"))
+        out_file.write(get_contents_of_file("inc/dump.inc"))
+        out_file.write(get_contents_of_file("inc/print.inc"))
         out_file.write("\n")
         out_file.write("\n")
         out_file.write("\n")
@@ -279,6 +284,8 @@ def compile_program(program, args):
         out_file.write("section .bss\n")
         out_file.write("    digitSpace resb 100\n")
         out_file.write("    digitSpacePos resb 8\n")
+        out_file.write("    digitSpace2 resb 100\n")
+        out_file.write("    digitSpacePos2 resb 8\n")
 
         # Numbers are stored as 8-bit longs, so
         # 800 bytes for example gets us 100 numbers
