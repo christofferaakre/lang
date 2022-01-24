@@ -62,7 +62,7 @@ Nested if-else blocks and loops are supported.
 | `END`  | `end`  | Marks the end of an if-else block or a loop|
 | `WHILE`  | `while`  |Peeks at the top number on the stack. If it is nonzero, execute the code until the next `end`. Then peek at the top number again and repeat until the top number is zero, then jump to the `end` |
 | `MACRO`  | `macro:macroname`  |Starts a macro definition block. The macro can be called later with `call:macroname`|
-| `RET`  | `ret`  |Returns out of the macro. Return values are not a thing in this language, instead you may push a value onto the stack before returning, and then pop it off after you call the macro|
+| `RET`  | `ret`  |Returns out of the macro. Return values are not a thing in this language, instead you may push a value onto the stack before returning, and then pop it off after you call the macro. Conditional returns may work "by accident" only in simulation mode due to implementation details. They are *not* supported in either mode.|
 | `CALL`  | `call:macroname`  |Call the macro with name `macroname`.|
 
 ## Examples
