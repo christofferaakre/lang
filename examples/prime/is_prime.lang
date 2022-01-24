@@ -1,0 +1,17 @@
+macro:mod
+    # second topmost number mod top number
+    / swap pop
+ret
+
+macro:is_prime
+    pop:n
+    2 pop:counter
+    1 while pop
+        $n $counter call:mod
+        $counter 1 + pop:counter
+      end
+    $counter 1 -
+    $n =
+ret
+
+17 call:is_prime dump
