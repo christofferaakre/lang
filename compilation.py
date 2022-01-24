@@ -44,7 +44,7 @@ def compile_program(program, args):
             write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
-            assert OP_COUNT == 24, "Must handle all instructions in compile_program"
+            assert OP_COUNT == 26, "Must handle all instructions in compile_program"
 
             if op[0] == OP_MACRO:
                 assert not subroutine, "Nested subroutines are not allowed for this language"
@@ -132,6 +132,10 @@ def compile_program(program, args):
                 write(f"    pop rax\n")
                 write(f"    call _printRAX\n")
                 write("\n")
+            elif op[0] == OP_PRINT:
+                raise NotImplementedError
+            elif op[0] == OP_PRINTS:
+                raise NotImplementedError
             elif op[0] == OP_EXIT:
                 write("    ;; EXIT ;;\n")
                 write("    mov rax, 60\n")
