@@ -16,7 +16,8 @@ are used for compiling programs
     * Try to simulate: `./main.py examples/fib/fib.lang -s` and <br>
     * Try to compile: `./main.py examples/fib/fib.lang -c examples/fib/fib`
     * Try to run the compiled file: `./examples/fib/fib`
-5. Add the `main.py` to your system path somehow, e.g. save a bash script called `lang` in your `~/bin`:
+5. Add the `main.py` to your system path somehow, e.g.
+with a symlink, or save a bash script called `lang` in your `~/bin`:
     ```bash
     ~/coding/lang/main.py "$@"
     ```
