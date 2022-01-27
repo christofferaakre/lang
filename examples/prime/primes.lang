@@ -21,6 +21,7 @@ macro:is_prime
     if
         dup dump
     end
+
     1 +
     dup 1000 <=
 end

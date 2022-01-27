@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+import sys
 from ops import *
 
 def lex_program(program_filename: str) -> list:
@@ -14,10 +16,12 @@ def lex_program(program_filename: str) -> list:
                 continue
             instructions = line.replace('\n', '').split(' ')
             string = ''
+            advance = True
             for instruction in instructions:
                 #print(instruction_pointer, instruction)
                 assert OP_COUNT == 26, "Must handle all instructions in lex_program"
                 if '"' in instruction:
+                    advance = False
                     s = instruction
                     s = instruction.replace('"', '')
                     s = s.replace('\\n', '\n')
@@ -26,6 +30,7 @@ def lex_program(program_filename: str) -> list:
                     s = s.replace('\\40', '\40')
 
                     if instruction.endswith('"'):
+                        advance = True
                         string += ' ' + s
                         op = (OP_PRINTS, string)
                         program.append(op)
@@ -34,8 +39,8 @@ def lex_program(program_filename: str) -> list:
                         string += s
 
 
-
                 elif string:
+                    advance = False
                     s = instruction
                     string += ' ' + s
 
@@ -190,9 +195,15 @@ def lex_program(program_filename: str) -> list:
                        print(f"Error on line {line_number+1}: Invalid operator {instruction}. Error: {error}. Exiting with code 1")
                        exit(1)
 
-                instruction_pointer += 1
+                if advance:
+                    instruction_pointer += 1
 
 
 
     # print(program)
     return program
+
+if __name__ == '__main__':
+    filename = sys.argv[1]
+    program = lex_program(filename)
+    print(program)
