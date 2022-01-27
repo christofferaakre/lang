@@ -3,15 +3,8 @@ from utils import get_contents_of_file, print_usage, string_to_nasm_string
 import subprocess
 
 def compile_program(program, args):
-    out_filename = None
-    if len(args) >= 1:
-        if '.asm' in args[0]:
-            out_filename = args[0].replace('.asm', '')
-        else:
-            print_usage(1)
-
-    if not out_filename:
-        out_filename = "out"
+    out_filename = args['out_file']
+    run = args['run']
 
     # this dict maps string variable names to integer
     # indices. For example, the first variable allocated
@@ -169,13 +162,11 @@ def compile_program(program, args):
             elif op[0] == OP_DUP:
                 if len(op) >= 2 and op[1] > 1:
                     # if op[1] is e.g. 2, we want to duplicate the second element
-                    print(f"compiling dup{op[1]}")
                     write(f"    mov rax, [rsp+{8 * (op[1] - 1)}]\n")
                     write(f"    push rax\n\n")
                     # raise NotImplementedError
 
                 else:
-                    print(f"compiling regular dup")
                     write("    pop rax\n")
                     write("    push rax\n")
                     write("    push rax\n")
@@ -348,3 +339,5 @@ def compile_program(program, args):
     print(f"$ ld {out_filename}.o -o {out_filename}")
 
     print(f"Compiled succesfully. Run with ./{out_filename}")
+    if run:
+        subprocess.run([f'./{out_filename}'])

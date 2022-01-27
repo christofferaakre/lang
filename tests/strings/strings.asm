@@ -214,8 +214,10 @@ push r14
 sub r10, 8
 ret
 section .data
-    string38 db " isaprimenumber",10
-    length38 db 16
+    string38 db " is a prime number",10
+    length38 db 19
+    string42 db "  is not a prime number",10
+    length42 db 24
 
 section .bss
     digitSpace resb 100
@@ -245,7 +247,7 @@ _addr30:
     ;; while ;; 
     mov rax, [rsp]
     test rax, rax
-    jz _addr45
+    jz _addr49
 _addr31:
     ;; POP ;;
     pop r13
@@ -271,34 +273,53 @@ _addr36:
     call _printRAXNoNewLine
 
 _addr37:
-    ;; PRINTS " isaprimenumber" ;;
+    ;; PRINTS " is a prime number" ;;
     mov rax, 1
     mov rdi, 1
     mov rsi, string38
     mov dl, [length38]
     syscall
 _addr38:
-    ;; end ;;
+    ;; else ;; 
+    jmp _addr43
 _addr39:
+    pop rax
+    push rax
+    push rax
+_addr40:
+    ;; PRINT ;;
+    pop rax
+    call _printRAXNoNewLine
+
+_addr41:
+    ;; PRINTS "  is not a prime number" ;;
+    mov rax, 1
+    mov rdi, 1
+    mov rsi, string42
+    mov dl, [length42]
+    syscall
+_addr42:
+    ;; end ;;
+_addr43:
     ;; PUSH 1 ;;
     push 1
 
-_addr40:
+_addr44:
     ;; ADD ;;
     pop rax
     pop rbx
     add rbx, rax
     push rbx
 
-_addr41:
+_addr45:
     pop rax
     push rax
     push rax
-_addr42:
+_addr46:
     ;; PUSH 11 ;;
     push 11
 
-_addr43:
+_addr47:
     ;; <= ;;
     pop rax
     pop rbx
@@ -307,10 +328,10 @@ _addr43:
     mov rdx, 0
     cmovle rdx, rbx
     push rdx
-_addr44:
+_addr48:
     ;; end ;;
     jmp _addr30
-_addr45:
+_addr49:
     ;; EXIT ;; 
     mov rax, 60
     mov rdi, 0
