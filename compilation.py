@@ -15,7 +15,6 @@ def compile_program(program, args):
     index = 0
 
     with open(out_filename + ".asm", "w") as out_file:
-
         # string to hold subroutine definitions
         subroutine_instructions = ''
         # string to hold all other instructions
@@ -34,7 +33,6 @@ def compile_program(program, args):
                 data += instruction
             else:
                 instructions += instruction
-
 
         instruction_pointer = 0
         while instruction_pointer < len(program):
@@ -229,7 +227,6 @@ def compile_program(program, args):
                 write("    cmovg rdx, rbx\n")
                 write("    push rdx\n")
 
-
             elif op[0] == OP_LESS_THAN:
                 write("    ;; < ;;\n")
                 write("    pop rax\n")
@@ -276,7 +273,6 @@ def compile_program(program, args):
                 write(f"        jmp _finally_{instruction_pointer}\n")
                 write(f"_finally_{instruction_pointer}:\n")
 
-
             elif op[0] == OP_PUSH_VAR:
                 assert len(op) == 2, "OP_PUSH_VAR must have name of variable"
                 var_name = op[1]
@@ -284,7 +280,6 @@ def compile_program(program, args):
                 write(f"    ;; PUSH_VAR {var_name} ;;\n")
                 write(f"    mov rax, [memory+{8 * index}]\n")
                 write(f"    push rax\n")
-
 
         # boiler plate for assembly code
         out_file.write("BITS 64\n")
@@ -302,6 +297,7 @@ def compile_program(program, args):
         out_file.write(data)
         out_file.write("\n")
 
+        # bss section
         out_file.write("section .bss\n")
         out_file.write("    digitSpace resb 100\n")
         out_file.write("    digitSpacePos resb 8\n")
@@ -332,7 +328,6 @@ def compile_program(program, args):
         out_file.write("    mov rax, 60\n")
         out_file.write("    mov rdi, 0\n")
         out_file.write("    syscall\n")
-
 
     # calling nasm
     subprocess.run(["nasm", "-f", "elf64", "-o", out_filename + ".o",
