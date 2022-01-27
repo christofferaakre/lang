@@ -1,0 +1,3 @@
+include "square.lang"
+
+6 call:square dump

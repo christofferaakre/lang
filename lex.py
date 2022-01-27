@@ -3,6 +3,7 @@ import sys
 from ops import *
 
 def lex_program(program_filename: str, args) -> list:
+    verbose = args['verbose']
     program = []
     ip_stack = []
 
@@ -18,8 +19,19 @@ def lex_program(program_filename: str, args) -> list:
             instructions = line.replace('\n', '').split(' ')
             string = ''
             advance = True
+
+            if instructions[0] == 'include':
+                if verbose:
+                    print(instructions)
+                module = instructions[1].replace('"', '')
+                module_instructions = lex_program(module, args)
+                program.extend(module_instructions)
+                continue
+
             for instruction in instructions:
-                #print(instruction_pointer, instruction)
+                # if verbose:
+                    # print(instruction_pointer, instruction)
+
                 assert OP_COUNT == 26, "Must handle all instructions in lex_program"
                 if '"' in instruction:
                     advance = False
