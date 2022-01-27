@@ -5,7 +5,7 @@ import subprocess
 def compile_program(program, args):
     out_filename = args['out_file']
     run = args['run']
-
+    verbose = args['verbose']
     # this dict maps string variable names to integer
     # indices. For example, the first variable allocated
     # gets index 0, the second one gets index 1, etc.
@@ -39,6 +39,11 @@ def compile_program(program, args):
         instruction_pointer = 0
         while instruction_pointer < len(program):
             op = program[instruction_pointer]
+
+            if verbose:
+                print(f"Instruction pointer: {instruction_pointer}")
+                print(f"Instruction: {op}")
+
             write(f"_addr{instruction_pointer}:\n")
             instruction_pointer += 1
 
