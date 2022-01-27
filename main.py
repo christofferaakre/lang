@@ -7,6 +7,8 @@ from utils import print_usage
 from simulation import simulate_program
 from compilation import compile_program
 
+
+
 def main():
     args = sys.argv[1:]
     if len(args) < 2:

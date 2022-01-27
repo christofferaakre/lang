@@ -1,5 +1,5 @@
 from ops import *
-from utils import get_contents_of_file, print_usage
+from utils import get_contents_of_file, print_usage, string_to_nasm_string
 import subprocess
 
 def compile_program(program, args):
@@ -27,16 +27,21 @@ def compile_program(program, args):
         subroutine_instructions = ''
         # string to hold all other instructions
         instructions = ''
+        data = ''
         # keep track of whether we are currently defining
         # a subroutine or executing instructions
         subroutine = False
+        data_section = False
 
         def write(instruction: str) -> None:
-            nonlocal subroutine_instructions, instructions, subroutine
+            nonlocal subroutine_instructions, instructions, subroutine, data, data_section
             if subroutine:
                 subroutine_instructions += instruction
+            elif data_section:
+                data += instruction
             else:
                 instructions += instruction
+
 
         instruction_pointer = 0
         while instruction_pointer < len(program):
@@ -139,7 +144,22 @@ def compile_program(program, args):
                 write("\n")
 
             elif op[0] == OP_PRINTS:
-                raise NotImplementedError
+                assert len(op) == 2, "OP_PRINTS must have string to print"
+                string = op[1]
+
+                nasm_string, length = string_to_nasm_string(string)
+                data_section = True
+                write(f"    string{instruction_pointer} db {nasm_string}\n")
+                write(f"    length{instruction_pointer} db {length}\n")
+
+                data_section = False
+                write(f"    ;; PRINTS \"{string.replace(chr(10), '')}\" ;;\n")
+                write(f"    mov rax, 1\n")
+                write(f"    mov rdi, 1\n")
+                write(f"    mov rsi, string{instruction_pointer}\n")
+                write(f"    mov dl, [length{instruction_pointer}]\n")
+                write(f"    syscall\n")
+
             elif op[0] == OP_EXIT:
                 write("    ;; EXIT ;;\n")
                 write("    mov rax, 60\n")
@@ -280,6 +300,11 @@ def compile_program(program, args):
 
         # user defined subroutines
         out_file.write(subroutine_instructions)
+
+        # data section
+        out_file.write("section .data\n")
+        out_file.write(data)
+        out_file.write("\n")
 
         out_file.write("section .bss\n")
         out_file.write("    digitSpace resb 100\n")
