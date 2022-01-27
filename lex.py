@@ -2,9 +2,10 @@
 import sys
 from ops import *
 
-def lex_program(program_filename: str) -> list:
+def lex_program(program_filename: str, args) -> list:
     program = []
     ip_stack = []
+
     with open(program_filename, "r") as program_file:
         lines = program_file.readlines()
         instruction_pointer = 0
@@ -198,12 +199,10 @@ def lex_program(program_filename: str) -> list:
                 if advance:
                     instruction_pointer += 1
 
-
-
-    # print(program)
     return program
 
 if __name__ == '__main__':
     filename = sys.argv[1]
-    program = lex_program(filename)
+    args = []
+    program = lex_program(filename, args)
     print(program)

@@ -45,7 +45,7 @@ def main():
 
     mode = 'sim' if sim else 'com'
 
-    program = lex_program(program_filename)
+    program = lex_program(program_filename, arguments)
 
     if mode == 'sim':
         simulate_program(program, arguments)
