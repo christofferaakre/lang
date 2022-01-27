@@ -1,7 +1,7 @@
 from ops import *
 
 def simulate_program(program, args):
-    verbose = False
+    verbose = args['verbose']
 
     stack = []
     ip_stack = []
