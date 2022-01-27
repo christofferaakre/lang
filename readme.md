@@ -13,22 +13,35 @@ are used for compiling programs
 3. Install python dependcies:
     * `pip install pathlib`
 4. Try to run one of the example files:
-    * Try to simulate: `./main.py examples/fib/fib.lang simulate` and <br>
-    * Try to compile: `./main.py examples/fib/fib.lang compile examples/fib/fib.asm`
+    * Try to simulate: `./main.py examples/fib/fib.lang -s` and <br>
+    * Try to compile: `./main.py examples/fib/fib.lang -c examples/fib/fib`
     * Try to run the compiled file: `./examples/fib/fib`
 5. Add the `main.py` to your system path somehow, e.g. save a bash script called `lang` in your `~/bin`:
     ```bash
     ~/coding/lang/main.py "$@"
     ```
-    Then, you can do `lang [program] [simulate | compile <out-file>]`
+    Then, you can do `lang -h]` to see the help for the compiler.
 
 ## Usage
 Write a program with `.lang` extension, for example `program.lang`. Then you can either simulate
-it in Python with `lang program.lang simulate`.
-You can compile it to `x86_64` assembly with `lang program.lang compile program.asm`. The compiled
+it in Python with `lang program.lang -s`.
+You can compile it to `x86_64` assembly with `lang program.lang -c program`. The compiled
 assembly code will be stored in the file specified, in this case `program.asm`. Additionally, an
 object file `program.o` will be generated, and the actual executable, simply named `program` with
 no extension. To run it, run `./program`.
+
+## Command line options
+This list may not be up to date. To see a list that is
+definitely up to date, run `./main.py -h`.
+
+| Option/Flag  | Description |
+|:-:|---|
+| `-h, --help`  | See help and options for the compiler  |
+| `-c, --compile`  | Set the compiler to compilation mode, i.e. compile to x86\_64 assembly |
+| `-s, --simulate`  | Set the compiler to simulation mode, i.e. simulate in python |
+| `-v, --verbose`  | Run the compiler in verbose mode |
+| `-o, --out-file`  | Output file for compiled binary |
+| `-r, --run`  | Run the compiled binary file immidiately after compilation has finished |
 
 ## Syntax highlighting
 If you use vim, you can get syntax highlighting by using the
