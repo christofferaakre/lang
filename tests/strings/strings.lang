@@ -15,14 +15,13 @@ macro:is_prime
     swap pop
     ret
 
-
 # main code to calculate prime numbers
 2 dup while pop
     dup call:is_prime
     if
         dup print "\40is a prime number\n"
     else
-        dup print "\40 is not a prime number\n"
+        dup print "\40is not a prime number\n"
     end
 
     1 +

@@ -25,9 +25,9 @@ with a symlink, or save a bash script called `lang` in your `~/bin`:
 
 ## Usage
 Write a program with `.lang` extension, for example `program.lang`. Then you can either simulate
-it in Python with `lang program.lang -s`.
-You can compile it to `x86_64` assembly with `lang program.lang -c program`. The compiled
-assembly code will be stored in the file specified, in this case `program.asm`. Additionally, an
+it in Python with `lang program.lang -s`, or
+you can compile it to `x86_64` assembly with `lang program.lang -c program`. The compiled
+assembly code will be stored in the file specified, with the `.asm` extension, in this case `program.asm`. Additionally, an
 object file `program.o` will be generated, and the actual executable, simply named `program` with
 no extension. To run it, run `./program`.
 

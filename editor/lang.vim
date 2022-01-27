@@ -4,14 +4,20 @@
 " au BufRead,BufNewFile *.lang set filetype=lang
        " autocmd FileType lang              let b:comment_leader = '#'
 
+" Official neovim docs for syntax highlighting:
+"https://neovim.io/doc/user/syntax.html
+
 if exists("b:current_syntax")
     finish
 endif
 
-syntax match numbers "\<[0-9]\+\>"
-syntax match vars /\$[0-9a-z_]\+/
-syntax match popVars /pop:[0-9a-z_]\+/
+syntax match number "\<[0-9]\+\>"
+syntax match var /\$[0-9a-z_]\+/
+syntax match popVar /pop:[0-9a-z_]\+/
 
+syntax match escapeChars display contained "\\[nr\"']"
+syntax region string start=/\v"/ skip=/\v\\./ end=/\v"/ contains=escapesChars
+"
 " macros
 syntax match macroStart /macro:[0-9a-z_]\+/
 syntax keyword return ret
@@ -25,9 +31,10 @@ syntax region commentLine start="#" end="\n" contains=langTodos
 
 syntax keyword keywords if else while end exit
 
-highlight default link numbers Number
-highlight default link vars Identifier
-highlight default link popVars Identifier
+highlight default link number Number
+highlight default link string Number
+highlight default link var Identifier
+highlight default link popVar Identifier
 highlight default link todos Todo
 highlight default link keywords Keyword
 highlight default link commentLine Comment
