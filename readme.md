@@ -86,6 +86,25 @@ Nested if-else blocks and loops are supported.
 | `RET`  | `ret`  |Returns out of the macro. Return values are not a thing in this language, instead you may push a value onto the stack before returning, and then pop it off after you call the macro. Conditional returns may work "by accident" only in simulation mode due to implementation details. They are *not* supported in either mode.|
 | `CALL`  | `call:macroname`  |Call the macro with name `macroname`.|
 
+### Modules
+You can write code in a file and then include that file in a different file
+by typing `include "module.lang"` if the file you want to include is named
+`file.lang` for example. Note that no other code should be on the same line
+as this statement. When a file is included, all of its code is simply ran,
+and all variables/macros etc. are in the global scope. For example, you create
+a file called `square.lang`:
+```
+macro:square
+dup *
+ret
+```
+and a file called `import.lang`:
+```
+6 call:square dump
+```
+If you know compile and run or simulate this file, you will get the ouput `36`
+as expected.
+
 ## Examples
 Code examples can be found in the `examples` directory, but here is an
 example program that calculates the prime numbers less than or equal to 1000
