@@ -102,7 +102,7 @@ and a file called `import.lang`:
 ```
 6 call:square dump
 ```
-If you know compile and run or simulate this file, you will get the ouput `36`
+If you now compile and run or simulate this file, you will get the ouput `36`
 as expected.
 
 ## Examples
